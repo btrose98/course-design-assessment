@@ -9,7 +9,7 @@ class Course:
 
 class Student:
     def __init__(self, id, name):
-        self.id = id,
+        self.id = id
         self.name = name
 
     def __repr__(self):
@@ -38,7 +38,8 @@ class Grade:
 
 
 class Enroll:
-    def __init__(self, course_id, student_id):
+    def __init__(self, id, course_id, student_id):
+        self.id = id
         self.course_id = course_id
         self.student_id = student_id
 

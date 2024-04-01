@@ -1,58 +1,56 @@
 import random
 
-from models import *
-from faker import Faker
-from faker.providers import DynamicProvider
+from app.models import *
 
-# Create fake data to be used
-fake = Faker()
+'''
+    Assumptions:
+        - Deleting an instance of an object will not decrement the ids. For example, 5 students currently exist,
+            resulting in ids 0-4 being assigned. If student with id=4 is deleted, then the next student id assigned
+            will be 5 (not 4). Similarly, if student id=2 is deleted, the next student id assigned will be 5. In this
+            case, the existing student ids would be 0,1,3-5.
+'''
 
-courses_provider = DynamicProvider(
-    provider_name="course_names",
-    elements=["Computer Science", "Math", "Science", "History", "Art", "Gym", "Geography", "French"]
-)
-number_of_available_courses = len(courses_provider.elements)
-
-assignments_provider = DynamicProvider(
-    provider_name="assignment_names",
-    elements=["assignment #1", "assignment #2", "assignment #3", "assignment #4", "assignment #5", "assignment #6", ]
-)
-number_of_assignments = len(assignments_provider.elements)
-
-students = [Student(student_id, fake.name()) for student_id in range(1, 11)]
-courses = [Course(course_id, fake.course_names()) for course_id in range(1, number_of_available_courses)]
-assignments = [
-    Assignment(
-        id=assignment_id,
-        name=fake.assignment_names(),
-        course_id=random.randint(1, number_of_available_courses)
-    ) for assignment_id in range(1, 7)
+students = [
+    Student(0, "Bradley Rose"),
+    Student(1, "Celina Norman"),
+    Student(2, "Ray Bray"),
+    Student(3, "Joann Wang"),
+    Student(4, "Antonia Perez"),
 ]
+next_student_id = max(student.id for student in students) + 1
 
-# Enroll each student in any number of courses
-enrollments = []
-for student in students:
-    num_enrollments = random.randint(1, number_of_available_courses)
-    for i in range(num_enrollments):
-        course = random.choice(courses)
-        new_enrollment = Enroll(course.id, student.id)
-        enrollments.append(new_enrollment)
+courses = [
+    Course(0, "Computer Science"),
+    Course(1, "Math"),
+    Course(2, "Physics"),
+    Course(3, "Music"),
+    Course(4, "Gym"),
+]
+next_course_id = max(course.id for course in courses) + 1
 
-# Assign grades to any number of assignments
+assignments = [
+    Assignment(0, "Assignment #1", 0),
+    Assignment(1, "Assignment #2", 1),
+    Assignment(2, "Assignment #3", 2),
+    Assignment(3, "Assignment #4", 0),
+    Assignment(4, "Assignment #5", 0),
+]
+next_assignment_id = max(assignment.id for assignment in assignments) + 1
 
+enrollments = [
+    Enroll(0, 0, 0),
+    Enroll(1, 1, 1),
+    Enroll(2, 2, 0),
+    Enroll(3, 0, 2),
+    Enroll(4, 0, 3),
+]
+next_enrollment_id = max(enrollment.id for enrollment in enrollments) + 1
 
-print("Students:")
-for student in students:
-    print(student)
-
-print("\nCourses:")
-for course in courses:
-    print(course)
-
-print("\nAssignments:")
-for assignment in assignments:
-    print(assignment)
-
-print("\nEnrollments:")
-for enroll in enrollments:
-    print(enroll)
+grades = [
+    Grade(0, 75, 0, 0),
+    Grade(1, 34, 0, 2),
+    Grade(2, 68, 2, 0),
+    Grade(3, 100, 4, 0),
+    Grade(4, 92, 3, 0),
+]
+next_grade_id = max(grade.id for grade in grades) + 1
