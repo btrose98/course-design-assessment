@@ -1,4 +1,8 @@
-Run tests using `pytest tests\TestCourseServiceImpl.py`
+Bradley Rose - submission
+
+Run tests using `pytest tests\test_course_service.py`
+
+Python v3.10.3 was used.
 
 # Course Management System
 You are asked to design a course management system. This system will help the faculty manage many courses, along with the enrolled students in each of the courses, and track their assignments.
