@@ -4,20 +4,10 @@ from app.data import *
 
 
 class CourseServiceImpl(CourseService):
-    """
-  Please implement the CourseService interface according to the requirements.
-  """
-
     def get_courses(self) -> List[Any]:
-        """
-    Returns a list of all courses.
-    """
         return courses
 
     def get_course_by_id(self, course_id) -> Any:
-        """
-    Returns a course by its id.
-    """
         for course in courses:
             if course.id == course_id:
                 return course
@@ -25,20 +15,12 @@ class CourseServiceImpl(CourseService):
         return None
 
     def create_course(self, course_name) -> int:
-        """
-    Creates a new course.
-    Returns the id of the new course.
-    """
         new_course = Course(next_course_id, course_name)
         self._increment_next_id_pointer(next_course_id)
         courses.append(new_course)
         return new_course.id
 
     def delete_course(self, course_id) -> bool:
-        """
-    Deletes a course by its id.
-    Returns True if the course was deleted successfully, otherwise False.
-    """
         course = self.get_course_by_id(course_id)
         if course is None:
             return False
@@ -48,20 +30,12 @@ class CourseServiceImpl(CourseService):
         return True
 
     def create_assignment(self, course_id, assignment_name) -> int:
-        """
-    Creates a new assignment for a course.
-    Returns the id of the new assignment.
-    """
         new_assignment = Assignment(next_assignment_id, assignment_name, course_id)
         self._increment_next_id_pointer(next_assignment_id)
         assignments.append(new_assignment)
         return new_assignment.id
 
     def enroll_student(self, course_id, student_id) -> bool:
-        """
-    Enrolls a student in a course.
-    Returns True if the student was enrolled successfully, otherwise False.
-    """
         course = self.get_course_by_id(course_id)
         if course is None:
             print("\nEnroll Failed.")
@@ -84,10 +58,6 @@ class CourseServiceImpl(CourseService):
         return True
 
     def dropout_student(self, course_id, student_id) -> bool:
-        """
-    Drops a student from a course.
-    Returns True if the student was dropped successfully, otherwise False.
-    """
         if self.get_course_by_id(course_id) is None:
             print("\ndrop student failed.")
             return False  # Course doesn't exist
@@ -105,11 +75,6 @@ class CourseServiceImpl(CourseService):
         return False
 
     def submit_assignment(self, course_id, student_id, assignment_id, grade: int) -> bool:
-        """
-    Submits an assignment for a student. A grade of an assignment will be an integer between 0 and 100 inclusive.
-    Returns True if the assignment was submitted successfully, otherwise False.
-    """
-
         if not 0 <= grade <= 100:
             print(f"Invalid grade.\nFailed to submit assignment: {assignment_id}.")
             return False
@@ -132,9 +97,6 @@ class CourseServiceImpl(CourseService):
         return True
 
     def get_assignment_grade_avg(self, course_id, assignment_id) -> int:
-        """
-    Returns the average grade for an assignment. Floors the result to the nearest integer.
-    """
         course = self.get_course_by_id(course_id)
         if course is None:
            return -1
@@ -149,10 +111,6 @@ class CourseServiceImpl(CourseService):
         return avg.__floor__()
 
     def get_student_grade_avg(self, course_id, student_id) -> int:
-        """
-    Returns the average grade for a student in a course. Floors the result to the nearest integer.
-    """
-
         student = self._get_student_by_id(student_id)
         course = self.get_course_by_id(course_id)
         if (student or course) is None:
